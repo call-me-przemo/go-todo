@@ -4,49 +4,51 @@
 
 ## Introduction
 
-A simple todolist application written in Go 
+A simple todolist application written in Go
 
 ## Requirements
-* MySQL installed
-* Go installed
+
+- Docker installed
+- Go installed
 
 ## Installation
 
-* Clone this repo 
+- Clone this repo
 
 ```bash
-git clone https://github.com/ichtrojan/go-todo.git
+git clone https://github.com/call-me-przemo/go-todo.git
 ```
 
-* Change Directory
+- Change Directory
 
 ```bash
 cd go-todo
 ```
 
-* Initiate `.env` file
+- Initiate `.env` file
 
 ```bash
 cp .env.example .env
 ```
 
-* Modify `.env` file with your correct database credentials and desired Port
+- Modify `.env` file with your correct database credentials and desired Port
 
 ## Usage
+
+Run database
+
+```bash
+docker compose up -d
+```
 
 To run this application, execute:
 
 ```bash
-go run main.go
+go run .
 ```
 
-You should be able to access this application at `http://127.0.0.1:4040`
+You should be able to access this application at `http://0.0.0.0:3000`
 
->**NOTE**<br>
->If you modified the port in the `.env` file, you should access the application for the port you set
+**NOTE**
 
-## Conclusion 
-
-This Project is an example to teach CRUD using the default `database/sql` package and how to serve html templates properly.
-
-If you have anything to add to this, please send in a PR as it will no longer be actively maintained by [me](https://github.com/ichtrojan).
+If you modified the port in the `.env` file, you should access the application for the port you set

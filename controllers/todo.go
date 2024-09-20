@@ -2,11 +2,12 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/ichtrojan/go-todo/config"
-	"github.com/ichtrojan/go-todo/models"
 	"html/template"
 	"net/http"
+
+	"github.com/call-me-przemo/go-todo/config"
+	"github.com/call-me-przemo/go-todo/models"
+	"github.com/gorilla/mux"
 )
 
 var (

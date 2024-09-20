@@ -2,64 +2,39 @@ package config
 
 import (
 	"database/sql"
-	"errors"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/ichtrojan/thoth"
-	_ "github.com/joho/godotenv/autoload"
 	"log"
-	"os"
+
+	"github.com/go-sql-driver/mysql"
 )
 
 func Database() *sql.DB {
-	logger, _ := thoth.Init("log")
+	LoadEnv()
 
-	user, exist := os.LookupEnv("DB_USER")
+	user := GetEnv("MYSQL_USER")
+	pass := GetEnv("MYSQL_PASSWORD")
+	host := GetEnv("MYSQL_HOST")
+	db := GetEnv("MYSQL_DATABASE")
+	port := GetEnv("MYSQL_PORT")
 
-	if !exist {
-		logger.Log(errors.New("DB_USER not set in .env"))
-		log.Fatal("DB_USER not set in .env")
+	cfg := mysql.Config{
+		User:   user,
+		Passwd: pass,
+		Addr:   host + ":" + port,
+		DBName: db,
 	}
 
-	pass, exist := os.LookupEnv("DB_PASS")
-
-	if !exist {
-		logger.Log(errors.New("DB_PASS not set in .env"))
-		log.Fatal("DB_PASS not set in .env")
-	}
-
-	host, exist := os.LookupEnv("DB_HOST")
-
-	if !exist {
-		logger.Log(errors.New("DB_HOST not set in .env"))
-		log.Fatal("DB_HOST not set in .env")
-	}
-
-	credentials := fmt.Sprintf("%s:%s@(%s:3306)/?charset=utf8&parseTime=True", user, pass, host)
-
-	database, err := sql.Open("mysql", credentials)
+	database, err := sql.Open("mysql", cfg.FormatDSN())
 
 	if err != nil {
-		logger.Log(err)
+		Logger.Log(err)
 		log.Fatal(err)
 	} else {
 		fmt.Println("Database Connection Successful")
 	}
 
-	_, err = database.Exec(`CREATE DATABASE gotodo`)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	_, err = database.Exec(`USE gotodo`)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
 	_, err = database.Exec(`
-		CREATE TABLE todos (
+		CREATE TABLE IF NOT EXISTS todos (
 		    id INT AUTO_INCREMENT,
 		    item TEXT NOT NULL,
 		    completed BOOLEAN DEFAULT FALSE,
