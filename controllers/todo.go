@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	_ "embed"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -14,8 +15,10 @@ var (
 	id        int
 	item      string
 	completed int
-	view      = template.Must(template.ParseFiles("./views/index.html"))
-	database  = config.Database()
+	//go:embed views/index.html
+	fileString string
+	view       = template.Must(template.New("index.html").Parse(fileString))
+	database   = config.Database()
 )
 
 func Show(w http.ResponseWriter, r *http.Request) {
