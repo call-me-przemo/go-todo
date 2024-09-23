@@ -7,6 +7,7 @@ import (
 
 	"github.com/call-me-przemo/go-todo/config"
 	"github.com/call-me-przemo/go-todo/routes"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
