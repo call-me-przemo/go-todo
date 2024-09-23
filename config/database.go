@@ -9,7 +9,6 @@ import (
 )
 
 func Database() *sql.DB {
-	LoadEnv()
 
 	user := GetEnv("MYSQL_USER")
 	pass := GetEnv("MYSQL_PASSWORD")
