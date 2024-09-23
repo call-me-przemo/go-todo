@@ -19,6 +19,7 @@ func Database() *sql.DB {
 	cfg := mysql.Config{
 		User:   user,
 		Passwd: pass,
+		Net:    "tcp",
 		Addr:   host + ":" + port,
 		DBName: db,
 	}
